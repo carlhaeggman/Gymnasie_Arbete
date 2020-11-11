@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    private float t;
-    private bool timeStarted = false;
-    private float timeElapsed;
 
     Vector3 cameraPosition;
     public Camera mainCamera;
@@ -17,113 +14,95 @@ public class PlayerMovement : MonoBehaviour
     private float horizontalY;
     bool canMove;
 
-    public static float globalGravity = -9.82f;
-    public float gravityScale = 1.0f;
-
     public Transform cameraHolder;
 
-<<<<<<< HEAD
     Rigidbody rig;
-    CapsuleCollider coll;
+    CapsuleCollider col;
     float originalHeight;
-    public float reducedHeight;
-    public float slideLength;
+    private float reducedHeight;
+    private float slideLength;
+    bool timeStarted = false;
+    private float timeElsapsed;
+    private float getUpDuration;
 
-    public float mouseSensitivity;
+
+    private float mouseSensitivity;
     private float xRotation;
 
+    public LayerMask groundLayers;
+    private float jumpForce;
 
-=======
-    private float slideTime;
-    private bool canSlide;
->>>>>>> 4ca20df804490294faf2cb1552fbe903848e5598
     
     void Start()
     {
-        slideLength = 0.05f;
-        coll = GetComponent<CapsuleCollider>();
+        getUpDuration = 1f;
+        reducedHeight = 0.8f;
+        jumpForce = 5f;
+        slideLength = 0.7f;
+
         rig = GetComponent<Rigidbody>();
-        originalHeight = coll.height;
+        col = GetComponent<CapsuleCollider>();
+        originalHeight = col.height;
 
         canMove = true;
-        currentSpeed = 500;
-<<<<<<< HEAD
+        currentSpeed = 350;
         mouseSensitivity = 200f;
         xRotation = 0f;
         Cursor.lockState = CursorLockMode.Locked;
-=======
-        basespeed = 500;
-        slideTime = 3f;
->>>>>>> 4ca20df804490294faf2cb1552fbe903848e5598
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        MovementSlide();
     }
 
     void FixedUpdate()
     {
+        //Kör "Movement" funktionen
         Movement();
-    }
-<<<<<<< HEAD
-    void Update()
-=======
 
-    void Movement()
->>>>>>> 4ca20df804490294faf2cb1552fbe903848e5598
+        Physics.gravity = new Vector3(0, -13F, 0);
+
+
+    }
+    void Update()
     {
-        if (Input.GetKeyDown(KeyCode.C))
+
+        Debug.Log(canMove);
+
+        //Kör "Sliding" funktionen om man håller inne C medan W hålls nere
+        if (Input.GetKeyDown(KeyCode.C) && Input.GetKey(KeyCode.W))
         {
-            Debug.Log("sup");
             Sliding();
-            canMove = false;
+            if(rb.velocity.x > 0.5)
+            {
+                canMove = false;
+            }
+           
         }
+        //Om man släpper up "C" körs "GoUp" funktionen
         else if (Input.GetKeyUp(KeyCode.C))
         {
-            GoUp();
+            GetUp();
             canMove = true;
-            
+
         }
 
         if (Input.GetKey(KeyCode.LeftShift))
         {
-            currentSpeed = 900f;
-            slideLength = 0.25f;
+            currentSpeed = 500f;
+            slideLength = 2.3f;
         }
         else if (Input.GetKeyUp(KeyCode.LeftShift))
         {
-            currentSpeed = 500;
-            slideLength = 0.05f;
+            currentSpeed = 350;
+            slideLength = 0.1f;
         }
-    }
 
-<<<<<<< HEAD
+        Jump();
+
         LookAround();
     }
 
 
     void Movement()
     {
-        if(canMove == true)
-=======
-    void MovementSlide()
-    {
-
-        if (!timeStarted)
-        {
-            timeElapsed = Time.time;
-        }
-        float t =+ Time.time - timeElapsed;
-        if (Input.GetKeyDown(KeyCode.C) && canSlide == true)
-        {
-            canSlide = false;
-            timeStarted = true;
-            currentSpeed = Mathf.Lerp(basespeed * 1.5f, basespeed * 0.6f, t / slideTime);
-        }
-        if (Input.GetKeyUp(KeyCode.C))
->>>>>>> 4ca20df804490294faf2cb1552fbe903848e5598
+        if (canMove == true)
         {
             horizontalX = Input.GetAxisRaw("Horizontal");
             horizontalY = Input.GetAxisRaw("Vertical");
@@ -131,20 +110,36 @@ public class PlayerMovement : MonoBehaviour
             rb.AddRelativeForce(Time.deltaTime * horizontalX * currentSpeed, 0 * Time.deltaTime, Time.deltaTime * horizontalY * currentSpeed, ForceMode.VelocityChange);
             rb.velocity = new Vector3(0, rb.velocity.y, 0);
         }
-<<<<<<< HEAD
     }
 
     private void Sliding()
     {
 
-        coll.height = reducedHeight;
+        col.height = reducedHeight;
         rig.AddForce(transform.forward * slideLength, ForceMode.VelocityChange);
+
+        if(rig.velocity.x < 0.5)
+        {
+            canMove = true;
+            currentSpeed = 10;
+            Debug.Log(canMove);
+        }
 
     }
 
-    private void GoUp()
+    private void GetUp()
     {
-        coll.height = Mathf.Lerp(coll.height, originalHeight, Time.time/3);
+        
+       
+        if (!timeStarted)
+        {
+            timeElsapsed = Time.time;
+            timeStarted = true;
+        }
+
+        float t =+ Time.time - timeElsapsed;
+
+        col.height = Mathf.Lerp(col.height, originalHeight, Time.time / getUpDuration);
     }
 
     private void LookAround()
@@ -162,27 +157,20 @@ public class PlayerMovement : MonoBehaviour
             Cursor.lockState = CursorLockMode.None;
         }
     }
-=======
 
-
+    private void Jump()
+    {
+        if (isGrounded() && Input.GetKeyDown(KeyCode.Space))
+        {
+            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        }
     }
 
-  
-    /*
-    void MovementSlide()
+    private bool isGrounded()
     {
-        if (!timeStarted)
-        {
-            timeElapsed = Time.time;
-        }
-        float t =+ Time.time - timeElapsed;
-        
-
-            slideDistance = Mathf.Lerp(1, 0.2f, t / slideTime);
-            currentSpeed = basespeed * (slideValue.Evaluate(slideDistance) * slideMultiplier);
-        timeStarted = true;
-    }*/
->>>>>>> 4ca20df804490294faf2cb1552fbe903848e5598
+        return Physics.CheckCapsule(col.bounds.center, new Vector3(col.bounds.center.x, col.bounds.min.y,col.bounds.center.z), col.radius * .9f, groundLayers);
+       
+    }
 }
 
 
