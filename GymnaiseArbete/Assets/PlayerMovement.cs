@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    private float t;
+    private bool timeStarted = false;
+    private float timeElapsed;
 
     Vector3 cameraPosition;
     public Camera mainCamera;
@@ -19,6 +22,7 @@ public class PlayerMovement : MonoBehaviour
 
     public Transform cameraHolder;
 
+<<<<<<< HEAD
     Rigidbody rig;
     CapsuleCollider coll;
     float originalHeight;
@@ -29,6 +33,10 @@ public class PlayerMovement : MonoBehaviour
     private float xRotation;
 
 
+=======
+    private float slideTime;
+    private bool canSlide;
+>>>>>>> 4ca20df804490294faf2cb1552fbe903848e5598
     
     void Start()
     {
@@ -39,17 +47,32 @@ public class PlayerMovement : MonoBehaviour
 
         canMove = true;
         currentSpeed = 500;
+<<<<<<< HEAD
         mouseSensitivity = 200f;
         xRotation = 0f;
         Cursor.lockState = CursorLockMode.Locked;
+=======
+        basespeed = 500;
+        slideTime = 3f;
+>>>>>>> 4ca20df804490294faf2cb1552fbe903848e5598
     }
 
     // Update is called once per frame
+    void Update()
+    {
+        MovementSlide();
+    }
+
     void FixedUpdate()
     {
         Movement();
     }
+<<<<<<< HEAD
     void Update()
+=======
+
+    void Movement()
+>>>>>>> 4ca20df804490294faf2cb1552fbe903848e5598
     {
         if (Input.GetKeyDown(KeyCode.C))
         {
@@ -74,7 +97,9 @@ public class PlayerMovement : MonoBehaviour
             currentSpeed = 500;
             slideLength = 0.05f;
         }
+    }
 
+<<<<<<< HEAD
         LookAround();
     }
 
@@ -82,6 +107,23 @@ public class PlayerMovement : MonoBehaviour
     void Movement()
     {
         if(canMove == true)
+=======
+    void MovementSlide()
+    {
+
+        if (!timeStarted)
+        {
+            timeElapsed = Time.time;
+        }
+        float t =+ Time.time - timeElapsed;
+        if (Input.GetKeyDown(KeyCode.C) && canSlide == true)
+        {
+            canSlide = false;
+            timeStarted = true;
+            currentSpeed = Mathf.Lerp(basespeed * 1.5f, basespeed * 0.6f, t / slideTime);
+        }
+        if (Input.GetKeyUp(KeyCode.C))
+>>>>>>> 4ca20df804490294faf2cb1552fbe903848e5598
         {
             horizontalX = Input.GetAxisRaw("Horizontal");
             horizontalY = Input.GetAxisRaw("Vertical");
@@ -89,6 +131,7 @@ public class PlayerMovement : MonoBehaviour
             rb.AddRelativeForce(Time.deltaTime * horizontalX * currentSpeed, 0 * Time.deltaTime, Time.deltaTime * horizontalY * currentSpeed, ForceMode.VelocityChange);
             rb.velocity = new Vector3(0, rb.velocity.y, 0);
         }
+<<<<<<< HEAD
     }
 
     private void Sliding()
@@ -119,6 +162,27 @@ public class PlayerMovement : MonoBehaviour
             Cursor.lockState = CursorLockMode.None;
         }
     }
+=======
+
+
+    }
+
+  
+    /*
+    void MovementSlide()
+    {
+        if (!timeStarted)
+        {
+            timeElapsed = Time.time;
+        }
+        float t =+ Time.time - timeElapsed;
+        
+
+            slideDistance = Mathf.Lerp(1, 0.2f, t / slideTime);
+            currentSpeed = basespeed * (slideValue.Evaluate(slideDistance) * slideMultiplier);
+        timeStarted = true;
+    }*/
+>>>>>>> 4ca20df804490294faf2cb1552fbe903848e5598
 }
 
 
