@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
+    [HideInInspector]
     public int damage, durability;
     List<GameObject> weapCompStats = new List<GameObject>();
     int listLength;
@@ -25,5 +26,6 @@ public class Weapon : MonoBehaviour
             damage += weapCompStats[0].GetComponent<WeaponComponent>().damage;
         }
         durability = weapCompStats[0].GetComponent<WeaponComponent>().durability;
+        Debug.Log(damage +" "+ transform.gameObject.name);
     }
 }

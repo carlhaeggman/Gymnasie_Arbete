@@ -33,6 +33,7 @@ public class PlayerMovement : MonoBehaviour
     private float jumpForce;
 
     public Slider sensSlider;
+    public Text sensText;
 
     //Bools för de olike "State" funktionerna
     bool canSlide;
@@ -57,10 +58,9 @@ public class PlayerMovement : MonoBehaviour
         originalHeight = col.height;
 
         currentSpeed = walkSpeed;
-        mouseSensitivity = 200f;
+        mouseSensitivity = 20f;
         xRotation = 0f;
         Cursor.lockState = CursorLockMode.Locked;
-
 
         haveGotUp = true;
         canMove = true;
@@ -79,20 +79,27 @@ public class PlayerMovement : MonoBehaviour
     }
     void Update()
     {
-        Debug.Log(isGrounded());
+        sensText.text = mouseSensitivity.ToString();
         StateManager();
         
         Jump();
 
         LookAround();
 
-        mouseSensitivity = sensSlider.value;
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            mouseSensitivity += 1f;
+        }
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            mouseSensitivity -= 1f;
+        }
     }
 
     private void LookAround()
     {
-        float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
-        float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
+        float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * 10 * Time.deltaTime;
+        float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * 10* Time.deltaTime;
 
         xRotation -= mouseY;
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
@@ -152,7 +159,7 @@ public class PlayerMovement : MonoBehaviour
         var speed = rb.velocity.magnitude;
 
         //Kör "Sliding" funktionen om man håller inne C medan W hålls nere
-        if (Input.GetKeyDown(KeyCode.C) && Input.GetKey(KeyCode.W) && canSlide == true && isGrounded())
+        if (Input.GetKeyDown(KeyCode.C) && Input.GetKey(KeyCode.W) && canSlide == true && isGrounded() || Input.GetKeyDown(KeyCode.LeftControl) && Input.GetKey(KeyCode.W) && canSlide == true && isGrounded())
         {
             
             SlideState();
@@ -163,7 +170,7 @@ public class PlayerMovement : MonoBehaviour
                 startedSliding = true;
             }
         }
-        else if (Input.GetKeyUp(KeyCode.C))
+        else if (Input.GetKeyUp(KeyCode.C) || Input.GetKeyUp(KeyCode.LeftControl))
         {
             RaycastHit roofDetector;
             if (Physics.Raycast(transform.position, transform.up, out roofDetector, 10, ~ignorePlayer))

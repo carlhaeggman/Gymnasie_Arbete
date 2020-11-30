@@ -6,13 +6,15 @@ public class PlayerWeapSstm : MonoBehaviour
 {
    public GameObject weapon1;
    public GameObject weapon2;
-    GameObject crntWeapon;
-    GameObject fists;
-
-    private int damage, durability;
+   GameObject crntWeapon;
+   public GameObject fists;
+   public Transform weaponPos;
+   private int damage, durability;
+    GameObject newWeap;
 
     private void Start()
     {
+        newWeap = fists;
         crntWeapon = weapon1;
         damage = weapon1.GetComponent<Weapon>().damage;
         durability = weapon1.GetComponent<Weapon>().durability;
@@ -24,7 +26,6 @@ public class PlayerWeapSstm : MonoBehaviour
         {
           disposeWeapon();
         }
-       
     }
     void InputManager()
     {
@@ -32,42 +33,66 @@ public class PlayerWeapSstm : MonoBehaviour
         {
             DropWeapon();
         }
-        SelectWeapon();
-    }
-    void DropWeapon()
-    {
-        if(crntWeapon != fists)
-        {
-            Instantiate(crntWeapon, transform.position, Quaternion.identity);
-            if (crntWeapon = weapon1)
-            {
-                weapon1 = fists;
-                crntWeapon = weapon1;
-                print(damage);
-            }
-            else if (crntWeapon = weapon2)
-            {
-                weapon2 = fists;
-                crntWeapon = weapon2;
-                print(damage);
-            }
-        }
-    }
-    void SelectWeapon()
-    {
+      
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             crntWeapon = weapon1;
-            damage = weapon1.GetComponent<Weapon>().damage;
-            durability = weapon1.GetComponent<Weapon>().durability;
-            print(damage);
+            UpdateInfo(weapon1);
+            Debug.Log(fists.GetComponent<Weapon>().damage);
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             crntWeapon = weapon2;
-            damage = weapon2.GetComponent<Weapon>().damage;
-            durability = weapon2.GetComponent<Weapon>().durability;
-            print(damage);
+            UpdateInfo(weapon2);
+        }
+    }
+
+    void PickUpWeap()
+    {
+        float distance = 5f;
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position,transform.forward, out hit, distance))
+        {
+            if(hit.transform.tag == "CanGrab" && Input.GetKeyUp(KeyCode.E))
+            {
+                newWeap = hit.transform.gameObject;
+                DropWeapon();
+                if (crntWeapon = weapon1)
+                {
+                    weapon1 = newWeap;
+                    crntWeapon = weapon1;
+                    UpdateInfo(weapon1);
+                }
+                else if (crntWeapon = weapon2)
+                {
+                    weapon2 = newWeap;
+                    crntWeapon = weapon2;
+                    UpdateInfo(weapon2);
+                }
+
+            }
+        }
+    }
+
+    void DropWeapon()
+    {
+        if(crntWeapon != fists)
+        {
+            Instantiate(crntWeapon, new Vector3(transform.position.x+3, transform.position.y, transform.position.z), Quaternion.identity);
+            Destroy(weapon1);
+            Debug.Log("Dropped");
+            if (crntWeapon == weapon1 && weapon1 != fists)
+            {
+                weapon1 = fists;
+                crntWeapon = fists;
+                UpdateInfo(weapon1);
+            }
+            else if (crntWeapon == weapon2 && weapon1 != fists)
+            {
+                weapon2 = fists;
+                crntWeapon = fists;
+                UpdateInfo(weapon2);
+            }
         }
     }
 
@@ -75,11 +100,27 @@ public class PlayerWeapSstm : MonoBehaviour
     {
         if (weapon1.GetComponent<Weapon>().durability <= 0)
         {
+            Destroy(weapon1);
             weapon1 = fists;
+            UpdateInfo(weapon1);
         }
         if (weapon2.GetComponent<Weapon>().durability <= 0)
         {
+            Destroy(weapon2);
             weapon2 = fists;
+            UpdateInfo(weapon2);
         }
+    }
+
+    void Attack()
+    {
+        
+    }
+
+    void UpdateInfo(GameObject weapon)
+    {
+        damage = weapon.GetComponent<Weapon>().damage;
+        durability = weapon.GetComponent<Weapon>().durability;
+        return;
     }
 }
