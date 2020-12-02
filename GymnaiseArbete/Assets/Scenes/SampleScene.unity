@@ -149,7 +149,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 215182570}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &102877060
 GameObject:
@@ -228,7 +228,7 @@ GameObject:
   - component: {fileID: 215182565}
   - component: {fileID: 215182571}
   m_Layer: 0
-  m_Name: Capsule
+  m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -347,6 +347,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 963194228}
+  - {fileID: 1235587330}
   - {fileID: 43362498}
   - {fileID: 1482866441}
   - {fileID: 1281205351}
@@ -369,6 +370,7 @@ MonoBehaviour:
   weapon2: {fileID: 1281205350}
   fists: {fileID: 1281205350}
   weaponPos: {fileID: 43362498}
+  rayCastPos: {fileID: 1235587330}
 --- !u!1 &260009913
 GameObject:
   m_ObjectHideFlags: 0
@@ -1334,9 +1336,8 @@ GameObject:
   - component: {fileID: 965730375}
   - component: {fileID: 965730379}
   - component: {fileID: 965730378}
-  - component: {fileID: 965730377}
   - component: {fileID: 965730376}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cube (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1371,19 +1372,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 15
   durability: 18
---- !u!65 &965730377
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 965730374}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &965730378
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1834,6 +1822,36 @@ Transform:
   m_Father: {fileID: 397342090}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1235587329
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1235587330}
+  m_Layer: 0
+  m_Name: RaycastHolder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1235587330
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1235587329}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0.55}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 215182570}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1255141000
 GameObject:
   m_ObjectHideFlags: 0
@@ -1959,7 +1977,7 @@ Transform:
   - {fileID: 513467258}
   - {fileID: 1363132727}
   m_Father: {fileID: 215182570}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1281205352
 MonoBehaviour:
@@ -2123,7 +2141,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1482866441}
   - component: {fileID: 1482866440}
-  m_Layer: 0
+  - component: {fileID: 1482866442}
+  m_Layer: 10
   m_Name: Weapon
   m_TagString: CanGrab
   m_Icon: {fileID: 0}
@@ -2159,8 +2178,21 @@ Transform:
   - {fileID: 965730375}
   - {fileID: 1534773551}
   m_Father: {fileID: 215182570}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1482866442
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1482866439}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1494384512
 GameObject:
   m_ObjectHideFlags: 0
@@ -2358,9 +2390,8 @@ GameObject:
   - component: {fileID: 1534773551}
   - component: {fileID: 1534773555}
   - component: {fileID: 1534773554}
-  - component: {fileID: 1534773553}
   - component: {fileID: 1534773552}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cube (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2395,19 +2426,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 12
   durability: 10
---- !u!65 &1534773553
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1534773550}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &1534773554
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2590,9 +2608,8 @@ GameObject:
   - component: {fileID: 1786540198}
   - component: {fileID: 1786540202}
   - component: {fileID: 1786540201}
-  - component: {fileID: 1786540200}
   - component: {fileID: 1786540199}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2627,19 +2644,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 13
   durability: 18
---- !u!65 &1786540200
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1786540197}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &1786540201
 MeshRenderer:
   m_ObjectHideFlags: 0

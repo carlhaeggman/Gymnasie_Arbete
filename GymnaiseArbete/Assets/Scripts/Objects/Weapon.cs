@@ -8,7 +8,6 @@ public class Weapon : MonoBehaviour
     public int damage, durability;
     List<GameObject> weapCompStats = new List<GameObject>();
     int listLength;
-    bool hasCollected;
 
     private void Start()
     {
@@ -21,9 +20,9 @@ public class Weapon : MonoBehaviour
     }
     void collectInfo()
     {
-        for (int i = 0; i-1 < listLength; i++)
+        for (int i = 0; i < listLength; i++)
         {
-            damage += weapCompStats[0].GetComponent<WeaponComponent>().damage;
+            damage += weapCompStats[i].GetComponent<WeaponComponent>().damage;
         }
         durability = weapCompStats[0].GetComponent<WeaponComponent>().durability;
         Debug.Log(damage +" "+ transform.gameObject.name);

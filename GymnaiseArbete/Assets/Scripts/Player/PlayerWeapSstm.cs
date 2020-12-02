@@ -9,8 +9,9 @@ public class PlayerWeapSstm : MonoBehaviour
    GameObject crntWeapon;
    public GameObject fists;
    public Transform weaponPos;
+    public Transform rayCastPos;
    private int damage, durability;
-    GameObject newWeap;
+   GameObject newWeap;
 
     private void Start()
     {
@@ -22,6 +23,7 @@ public class PlayerWeapSstm : MonoBehaviour
     private void Update()
     {
         InputManager();
+        PickUpWeap();
         if(durability <= 0)
         {
           disposeWeapon();
@@ -61,6 +63,9 @@ public class PlayerWeapSstm : MonoBehaviour
                 {
                     weapon1 = newWeap;
                     crntWeapon = weapon1;
+                    crntWeapon.transform.SetParent(transform);
+                    crntWeapon.transform.position = weaponPos.position;
+
                     UpdateInfo(weapon1);
                 }
                 else if (crntWeapon = weapon2)
@@ -78,7 +83,7 @@ public class PlayerWeapSstm : MonoBehaviour
     {
         if(crntWeapon != fists)
         {
-            Instantiate(crntWeapon, new Vector3(transform.position.x+3, transform.position.y, transform.position.z), Quaternion.identity);
+            Instantiate(crntWeapon, transform.position+(transform.forward * 2), Quaternion.identity);
             Destroy(weapon1);
             Debug.Log("Dropped");
             if (crntWeapon == weapon1 && weapon1 != fists)
