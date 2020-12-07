@@ -74,7 +74,6 @@ public class PlayerWeapSstm : MonoBehaviour
                     crntWeapon = weapon2;
                     UpdateInfo(weapon2);
                 }
-
             }
         }
     }
