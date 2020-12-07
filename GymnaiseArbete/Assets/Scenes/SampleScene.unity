@@ -536,7 +536,6 @@ Transform:
   - {fileID: 43362498}
   - {fileID: 1482866441}
   - {fileID: 1281205351}
-  - {fileID: 1007936214}
   m_Father: {fileID: 1749221414}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1531,7 +1530,7 @@ MonoBehaviour:
   volumeTrigger: {fileID: 963194228}
   volumeLayer:
     serializedVersion: 2
-    m_Bits: 2048
+    m_Bits: 4294967295
   stopNaNPropagation: 1
   finalBlitToCameraTarget: 0
   antialiasingMode: 1
@@ -1774,6 +1773,7 @@ GameObject:
   - component: {fileID: 1007936214}
   - component: {fileID: 1007936216}
   - component: {fileID: 1007936215}
+  - component: {fileID: 1007936217}
   m_Layer: 11
   m_Name: PostProcessing
   m_TagString: Untagged
@@ -1789,11 +1789,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1007936213}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -2.122, y: -3.0775347, z: 1.8015523}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 215182570}
-  m_RootOrder: 5
+  m_Father: {fileID: 1898370567}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &1007936215
 BoxCollider:
@@ -1820,11 +1820,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b9a305e18de0c04dbd257a21cd47087, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sharedProfile: {fileID: 11400000, guid: 563479fa126f67e408a8ff4124a6c280, type: 2}
-  isGlobal: 0
+  sharedProfile: {fileID: 11400000, guid: 020868e6adbdd0549ae36159500d039d, type: 2}
+  isGlobal: 1
   blendDistance: 10
   weight: 1
   priority: 0
+--- !u!114 &1007936217
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1007936213}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c520d478f3d2445429bd7ac9c92b03a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  postProcessLayer: {fileID: 963194229}
+  lightMeter: 0
+  histogram: 0
+  waveform: 0
+  vectorscope: 0
+  debugOverlay: 7
 --- !u!1 &1010075845
 GameObject:
   m_ObjectHideFlags: 0
@@ -3483,6 +3501,7 @@ Transform:
   m_Children:
   - {fileID: 1923566829}
   - {fileID: 631128029}
+  - {fileID: 1007936214}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
