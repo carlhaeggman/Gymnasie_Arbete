@@ -8,10 +8,14 @@ public class PlayerWeapSstm : MonoBehaviour
    public GameObject weapon2;
    GameObject crntWeapon;
    public GameObject fists;
+
    public Transform weaponPos;
-    public Transform rayCastPos;
+   public Transform rayCastPos;
+
    private int damage, durability;
+
    GameObject newWeap;
+   public GameObject weaponStorage;
 
     private void Start()
     {
@@ -61,6 +65,10 @@ public class PlayerWeapSstm : MonoBehaviour
                 DropWeapon();
                 if (crntWeapon = weapon1)
                 {
+                    if(weapon1 != fists)
+                    {
+                        DropWeapon();
+                    }
                     weapon1 = newWeap;
                     crntWeapon = weapon1;
                     crntWeapon.transform.SetParent(transform);
@@ -70,6 +78,10 @@ public class PlayerWeapSstm : MonoBehaviour
                 }
                 else if (crntWeapon = weapon2)
                 {
+                    if (weapon2 != fists)
+                    {
+                        DropWeapon();
+                    }
                     weapon2 = newWeap;
                     crntWeapon = weapon2;
                     UpdateInfo(weapon2);
@@ -83,7 +95,7 @@ public class PlayerWeapSstm : MonoBehaviour
         if(crntWeapon != fists)
         {
             Instantiate(crntWeapon, transform.position+(transform.forward * 2), Quaternion.identity);
-            Destroy(weapon1);
+            crntWeapon.transform.parent = weaponStorage.transform;
             Debug.Log("Dropped");
             if (crntWeapon == weapon1 && weapon1 != fists)
             {
@@ -104,13 +116,17 @@ public class PlayerWeapSstm : MonoBehaviour
     {
         if (weapon1.GetComponent<Weapon>().durability <= 0)
         {
-            Destroy(weapon1);
+            weapon1.SetActive(false);
+            weapon1.name = weapon1.name + " - " + "DESTROYED";
+            weapon1.transform.parent = weaponStorage.transform;
             weapon1 = fists;
             UpdateInfo(weapon1);
         }
         if (weapon2.GetComponent<Weapon>().durability <= 0)
         {
-            Destroy(weapon2);
+            weapon2.SetActive(false);
+            weapon2.name = weapon2.name + " - " + "DESTROYED";
+            weapon2.transform.parent = weaponStorage.transform;
             weapon2 = fists;
             UpdateInfo(weapon2);
         }
@@ -126,5 +142,10 @@ public class PlayerWeapSstm : MonoBehaviour
         damage = weapon.GetComponent<Weapon>().damage;
         durability = weapon.GetComponent<Weapon>().durability;
         return;
+    }
+
+    void GetCraftedWeapon(GameObject craftedWeapon)
+    {
+
     }
 }

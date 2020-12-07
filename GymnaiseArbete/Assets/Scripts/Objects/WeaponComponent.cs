@@ -5,9 +5,5 @@ using UnityEngine;
 public class WeaponComponent : MonoBehaviour
 {
     public int damage,durability;
-
-    private void Start()
-    {
-       
-    }
+    public Transform pos1, pos2;
 }
