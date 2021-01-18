@@ -3,7 +3,15 @@ guid: 3d056ec86000cce44b934a09e51be2ef
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - firstComponent: {fileID: 8760034405320847791, guid: f6151e4ceb151364dbed8c7b09cac6ab,
+      type: 3}
+  - secondComponent: {fileID: 8760034405320847791, guid: f6151e4ceb151364dbed8c7b09cac6ab,
+      type: 3}
+  - thirdComponent: {fileID: 8760034405320847791, guid: f6151e4ceb151364dbed8c7b09cac6ab,
+      type: 3}
+  - weapTemplate: {fileID: 843051947954038235, guid: d5275c251c70de34db848930f1ab8572,
+      type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

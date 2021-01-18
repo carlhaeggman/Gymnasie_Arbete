@@ -22,9 +22,9 @@ public class Weapon : MonoBehaviour
     {
         for (int i = 0; i < listLength; i++)
         {
-            damage += weapCompStats[i].GetComponent<WeaponComponent>().damage;
+            damage += weapCompStats[i].GetComponentInChildren<WeaponComponent>().damage;
         }
-        durability = weapCompStats[0].GetComponent<WeaponComponent>().durability;
-        Debug.Log(damage +" "+ transform.gameObject.name);
+        durability = weapCompStats[0].GetComponentInChildren<WeaponComponent>().durability;
+        //Debug.Log(damage +" "+ transform.gameObject.name);
     }
 }

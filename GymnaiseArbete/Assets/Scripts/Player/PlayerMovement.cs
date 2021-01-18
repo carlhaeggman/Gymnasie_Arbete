@@ -14,7 +14,9 @@ public class PlayerMovement : MonoBehaviour
     public Rigidbody rb;
     //private float horizontalX;
     //private float horizontalZ;
-    CapsuleCollider col;
+    public CapsuleCollider col;
+    public GameObject antiWallClimingObj;
+    private CapsuleCollider antiWallClimbingCol;
     float originalHeight;
     private float reducedHeight;
     public LayerMask ignorePlayer;
@@ -42,20 +44,20 @@ public class PlayerMovement : MonoBehaviour
 
     bool haveGotUp;
 
-    float walkSpeed = 8;
-    float runSpeed = 13;
+    float walkSpeed = 7;
+    float runSpeed = 12;
 
     void Start()
     {
         startedSliding = false;
-        reducedHeight = 0.8f;
+        reducedHeight = 0.6f;
         slideLength = 0.7f;
 
         jumpForce = 8f;
 
         rb = GetComponent<Rigidbody>();
-        col = GetComponent<CapsuleCollider>();
         originalHeight = col.height;
+        antiWallClimbingCol = antiWallClimingObj.GetComponent<CapsuleCollider>();
 
         currentSpeed = walkSpeed;
         mouseSensitivity = 20f;
@@ -147,6 +149,7 @@ public class PlayerMovement : MonoBehaviour
     private void SlideState()
     {
         col.height = reducedHeight;
+        antiWallClimbingCol.height = reducedHeight - 0.1f;
         rb.AddForce(transform.forward * slideLength, ForceMode.VelocityChange);
     }
 
@@ -159,9 +162,9 @@ public class PlayerMovement : MonoBehaviour
         var speed = rb.velocity.magnitude;
 
         //Kör "Sliding" funktionen om man håller inne C medan W hålls nere
-        if (Input.GetKeyDown(KeyCode.C) && Input.GetKey(KeyCode.W) && canSlide == true && isGrounded() || Input.GetKeyDown(KeyCode.LeftControl) && Input.GetKey(KeyCode.W) && canSlide == true && isGrounded())
+        if (Input.GetKeyDown(KeyCode.C) && Input.GetKey(KeyCode.W) && canSlide == true && isGrounded() || Input.GetKeyDown(KeyCode.LeftControl) && Input.GetKey(KeyCode.W) && canSlide == true && isGrounded() || Input.GetKey(KeyCode.LeftControl) && Input.GetKey(KeyCode.W) && canSlide == true && isGrounded() || Input.GetKey(KeyCode.C) && Input.GetKey(KeyCode.W) && canSlide == true && isGrounded())
         {
-            
+            canSlide = false;
             SlideState();
             if (startedSliding == false)
             {
@@ -180,6 +183,7 @@ public class PlayerMovement : MonoBehaviour
                 {
                     currentSpeed = 3.5f;
                     col.height = reducedHeight;
+                    antiWallClimbingCol.height = reducedHeight - 0.1f;
                 }
             }
             else
@@ -193,10 +197,12 @@ public class PlayerMovement : MonoBehaviour
                     currentSpeed = walkSpeed;
                 }
                 col.height = originalHeight;
+                antiWallClimbingCol.height = originalHeight - 0.1f;
                 haveGotUp = true;
             }
             canMove = true;
             startedSliding = false;
+            canSlide = true;
         }
         
         if(haveGotUp == false && startedSliding == false)
@@ -209,6 +215,7 @@ public class PlayerMovement : MonoBehaviour
                 if (roofDetector.distance <= originalHeight -0.1f)
                 {
                     col.height = reducedHeight;
+                    antiWallClimbingCol.height = reducedHeight - 0.1f;
                     if (Input.GetKey(KeyCode.LeftShift))
                     {
                         currentSpeed = runSpeed;
@@ -223,6 +230,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 haveGotUp = true;
                 col.height = originalHeight;
+                antiWallClimbingCol.height = reducedHeight - 0.1f;
                 currentSpeed = walkSpeed;
             }
         }
@@ -252,5 +260,3 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 }
-
-

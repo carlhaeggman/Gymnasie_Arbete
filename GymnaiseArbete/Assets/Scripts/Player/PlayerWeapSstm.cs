@@ -16,9 +16,13 @@ public class PlayerWeapSstm : MonoBehaviour
 
    GameObject newWeap;
    public GameObject weaponStorage;
+   private bool usingFirstWeapon;
+   private bool usingSecondWeapon;
 
     private void Start()
     {
+        usingFirstWeapon = true;
+        usingSecondWeapon = false;
         newWeap = fists;
         crntWeapon = weapon1;
         damage = weapon1.GetComponent<Weapon>().damage;
@@ -44,12 +48,15 @@ public class PlayerWeapSstm : MonoBehaviour
         {
             crntWeapon = weapon1;
             UpdateInfo(weapon1);
-            Debug.Log(fists.GetComponent<Weapon>().damage);
+            usingFirstWeapon = true;
+            usingSecondWeapon = false;
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             crntWeapon = weapon2;
             UpdateInfo(weapon2);
+            usingFirstWeapon = false;
+            usingSecondWeapon = true;
         }
     }
 
@@ -59,9 +66,9 @@ public class PlayerWeapSstm : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(transform.position,transform.forward, out hit, distance))
         {
-            if(hit.transform.tag == "CanGrab" && Input.GetKeyUp(KeyCode.E))
+            if(hit.transform.gameObject.CompareTag("CanGrab") && Input.GetKeyUp(KeyCode.E))
             {
-                newWeap = hit.transform.gameObject;
+                newWeap = hit.transform.parent.transform.parent.transform.parent.gameObject;
                 DropWeapon();
                 if (crntWeapon = weapon1)
                 {
@@ -94,9 +101,9 @@ public class PlayerWeapSstm : MonoBehaviour
     {
         if(crntWeapon != fists)
         {
-            Instantiate(crntWeapon, transform.position+(transform.forward * 2), Quaternion.identity);
+            crntWeapon.transform.position = transform.position + (transform.forward * 2);
             crntWeapon.transform.parent = weaponStorage.transform;
-            Debug.Log("Dropped");
+
             if (crntWeapon == weapon1 && weapon1 != fists)
             {
                 weapon1 = fists;
@@ -144,8 +151,21 @@ public class PlayerWeapSstm : MonoBehaviour
         return;
     }
 
-    void GetCraftedWeapon(GameObject craftedWeapon)
+    public void GetCraftedWeapon(GameObject craftedWeapon)
     {
-
+        //Debug.Log(usingSecondWeapon);
+        DropWeapon();
+        if (usingFirstWeapon == true)
+        {
+            weapon1 = craftedWeapon;
+            crntWeapon = weapon1;
+            UpdateInfo(weapon1);
+        }
+        else if(usingSecondWeapon == true)
+        {
+            weapon2 = craftedWeapon;
+            crntWeapon = weapon2;
+            UpdateInfo(weapon2);
+        }
     }
 }
