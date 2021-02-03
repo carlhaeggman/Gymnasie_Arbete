@@ -13,23 +13,29 @@ public class PlayerWeapSstm : MonoBehaviour
    public Transform rayCastPos;
 
    private int damage, durability;
+   private float range, accuracy, shootForce, ammo;
+    private GameObject cameraHolder;
 
    GameObject newWeap;
    public GameObject weaponStorage;
    private bool usingFirstWeapon;
    private bool usingSecondWeapon;
 
+
+
     private void Start()
     {
+        cameraHolder = GameObject.Find("CharacterCamera");
         usingFirstWeapon = true;
         usingSecondWeapon = false;
         newWeap = fists;
         crntWeapon = weapon1;
-        damage = weapon1.GetComponent<Weapon>().damage;
-        durability = weapon1.GetComponent<Weapon>().durability;
+        UpdateInfo(weapon1);
+        range = 9999.0f;
     }
     private void Update()
     {
+        Attack();
         InputManager();
         PickUpWeap();
         if(durability <= 0)
@@ -141,7 +147,18 @@ public class PlayerWeapSstm : MonoBehaviour
 
     void Attack()
     {
-        
+        if (Input.GetButtonDown("Fire1"))
+        {
+            RaycastHit hit;
+            
+           if (Physics.Raycast(cameraHolder.GetComponent<Camera>().transform.position, cameraHolder.GetComponent<Camera>().transform.forward, out hit, range)){
+                Stats stats = hit.transform.gameObject.GetComponent<Stats>();
+                if (stats != null)
+                {
+                    stats.TakeDamage(damage);
+                }
+           }
+        }
     }
 
     void UpdateInfo(GameObject weapon)
@@ -153,7 +170,6 @@ public class PlayerWeapSstm : MonoBehaviour
 
     public void GetCraftedWeapon(GameObject craftedWeapon)
     {
-        //Debug.Log(usingSecondWeapon);
         DropWeapon();
         if (usingFirstWeapon == true)
         {

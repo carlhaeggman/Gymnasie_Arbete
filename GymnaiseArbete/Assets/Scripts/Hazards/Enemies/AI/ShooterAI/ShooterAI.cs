@@ -25,9 +25,6 @@ public class ShooterAI : MonoBehaviour
         playerInRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
         if (Physics.Raycast(shootPos.position, (player.position - transform.position), out hit, attackRange) && hit.transform.CompareTag("Player"))
         {
-            //DOES NOT REACH HERE
-            Debug.Log(hit.transform.name);
-            Debug.Log(hit.transform.CompareTag("Player"));
             agent.enabled = false;
             if (hit.transform.CompareTag("Player"))
             {
@@ -59,11 +56,10 @@ public class ShooterAI : MonoBehaviour
         Quaternion targetRotation = Quaternion.LookRotation(direction);
         transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
 
-
         if (!alreadyAttacked)
         {
             Rigidbody projectileRB = Instantiate(projectile, shootPos.position, transform.rotation).GetComponent<Rigidbody>();
-            projectileRB.AddForce(transform.forward * 35f, ForceMode.Impulse);
+            projectileRB.AddForce(transform.forward * 50f, ForceMode.Impulse);
             projectileRB.AddForce(transform.up * 5f, ForceMode.Impulse);
 
             alreadyAttacked = true;
@@ -82,12 +78,4 @@ public class ShooterAI : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
-    /*private void enemyView()
-    {
-        _direction = player.transform.position - transform.position;
-        _direction.Normalize();
-        Ray ray = new Ray(transform.position, _direction);
-
-    }*/
 }

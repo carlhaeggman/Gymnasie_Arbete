@@ -9,7 +9,7 @@ public class Weapon : MonoBehaviour
     List<GameObject> weapCompStats = new List<GameObject>();
     int listLength;
 
-    private void Start()
+    private void Awake()
     {
         foreach (Transform child in transform)
         {
