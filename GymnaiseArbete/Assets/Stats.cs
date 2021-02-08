@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Stats : MonoBehaviour
 {
+    public float SpawnCost;
     public int health;
     private void Start()
     {
@@ -16,6 +17,7 @@ public class Stats : MonoBehaviour
         if(health <= 0)
         {
             Destroy(gameObject);
+            GameObject.Find("EnemySpawner").GetComponent<EnemyWaveSpawner>().enemiesInScene--;
         }
     }
 }
