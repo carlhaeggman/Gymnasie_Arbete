@@ -9,15 +9,21 @@ public class UIManagerScript : MonoBehaviour
     private GameObject Menu;
 
     // Update is called once per frame
-    private void Start()
+
+    private void Awake()
     {
         SettingsMenu = GameObject.Find("SettingsMenu");
         Menu = GameObject.Find("Menu");
     }
+    private void Start()
+    {
+        Menu.SetActive(false);
+        SettingsMenu.SetActive(false);
+    }
 
     private void Update()
     {
-        if (Input.GetKeyUp(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             ToggleMenu();
         }
@@ -25,14 +31,18 @@ public class UIManagerScript : MonoBehaviour
 
     private void ToggleMenu()
     {
-        if (Input.GetKeyUp(KeyCode.Escape) && !Menu.activeSelf)
+        if (Input.GetKeyDown(KeyCode.Escape) && !Menu.activeSelf && !SettingsMenu.activeSelf)
         {
             Menu.SetActive(true);
+            Time.timeScale = 0;
+            Cursor.lockState = CursorLockMode.None;
         }
-        else if (Input.GetKeyUp(KeyCode.Escape) && Menu.activeSelf || Input.GetKeyDown(KeyCode.Escape) && SettingsMenu.activeSelf)
+        else if (Input.GetKeyDown(KeyCode.Escape) && Menu.activeSelf || Input.GetKeyDown(KeyCode.Escape) && SettingsMenu.activeSelf)
         {
-            Menu.SetActive(false);
+            Menu.SetActive(false);  
             SettingsMenu.SetActive(false);
+            Time.timeScale = 1;
+            Cursor.lockState = CursorLockMode.Locked;
         }
     }
 }

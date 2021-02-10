@@ -52,11 +52,8 @@ public class EnemyWaveSpawner : MonoBehaviour
         foreach (GameObject spawnPointFound in GameObject.FindGameObjectsWithTag("SpawnPoint"))
         {
             spawnPosistions.Add(spawnPointFound);
-            Debug.Log(spawnPosistions.Count);
-            Debug.Log(spawnPointFound.name);
         }
 
-        
         //Letar igenom alla fiende typer efter den som har det lägsta spawnvärdet
         foreach (GameObject enemyType in enemyTypes)
         {

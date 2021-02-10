@@ -26,7 +26,7 @@ public class PlayerMovement : MonoBehaviour
     private bool startedSliding;
 
     //"Titta runt" variabler
-    private float mouseSensitivity;
+    public float mouseSensitivity;
     private float sensMultiplier;
     private float xRotation;
 
@@ -60,7 +60,6 @@ public class PlayerMovement : MonoBehaviour
         antiWallClimbingCol = antiWallClimingObj.GetComponent<CapsuleCollider>();
 
         currentSpeed = walkSpeed;
-        mouseSensitivity = 20f;
         xRotation = 0f;
         Cursor.lockState = CursorLockMode.Locked;
 
