@@ -81,21 +81,11 @@ public class PlayerMovement : MonoBehaviour
     }
     void Update()
     {
-        sensText.text = mouseSensitivity.ToString();
         StateManager();
         
         Jump();
 
         LookAround();
-
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            mouseSensitivity += 1f;
-        }
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            mouseSensitivity -= 1f;
-        }
     }
 
     private void LookAround()

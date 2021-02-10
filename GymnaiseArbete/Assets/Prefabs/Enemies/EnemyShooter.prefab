@@ -335,7 +335,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SpawnCost: 1
-  health: 10
+  health: 40
 --- !u!1 &4714468631496895516
 GameObject:
   m_ObjectHideFlags: 0
