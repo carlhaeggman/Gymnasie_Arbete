@@ -140,7 +140,7 @@ GameObject:
   - component: {fileID: 4714468629718603817}
   m_Layer: 12
   m_Name: Sphere
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -234,7 +234,7 @@ GameObject:
   - component: {fileID: 1442090942}
   m_Layer: 12
   m_Name: EnemyShooter
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -306,6 +306,8 @@ MonoBehaviour:
     type: 3}
   shootPos: {fileID: 4714468631496895517}
   health: 10
+  closestSpawnPoint: {fileID: 0}
+  outOfSpawn: 0
 --- !u!54 &1188629135
 Rigidbody:
   m_ObjectHideFlags: 0

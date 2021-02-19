@@ -11,37 +11,26 @@ public class PlayerWeapSstm : MonoBehaviour
 
    public Transform weaponPos;
    public Transform rayCastPos;
-
-   private int damage, durability;
-   private float range, accuracy, shootForce, ammo;
-    private GameObject cameraHolder;
-
+   
    GameObject newWeap;
    public GameObject weaponStorage;
    private bool usingFirstWeapon;
    private bool usingSecondWeapon;
 
-
-
+   public TrailRenderer projectileTrailRndr;
     private void Start()
     {
-        cameraHolder = GameObject.Find("CharacterCamera");
         usingFirstWeapon = true;
         usingSecondWeapon = false;
         newWeap = fists;
         crntWeapon = weapon1;
         UpdateInfo(weapon1);
-        range = 9999.0f;
+  
     }
     private void Update()
     {
-        Attack();
         InputManager();
         PickUpWeap();
-        if(durability <= 0)
-        {
-          disposeWeapon();
-        }
     }
     void InputManager()
     {
@@ -125,52 +114,22 @@ public class PlayerWeapSstm : MonoBehaviour
         }
     }
 
-    void disposeWeapon()
-    {
-        if (weapon1.GetComponent<Weapon>().durability <= 0)
-        {
-            weapon1.SetActive(false);
-            weapon1.name = weapon1.name + " - " + "DESTROYED";
-            weapon1.transform.parent = weaponStorage.transform;
-            weapon1 = fists;
-            UpdateInfo(weapon1);
-        }
-        if (weapon2.GetComponent<Weapon>().durability <= 0)
-        {
-            weapon2.SetActive(false);
-            weapon2.name = weapon2.name + " - " + "DESTROYED";
-            weapon2.transform.parent = weaponStorage.transform;
-            weapon2 = fists;
-            UpdateInfo(weapon2);
-        }
-    }
-
-    void Attack()
-    {
-        if (Input.GetButtonDown("Fire1"))
-        {
-            RaycastHit hit;
-            
-           if (Physics.Raycast(cameraHolder.GetComponent<Camera>().transform.position, cameraHolder.GetComponent<Camera>().transform.forward, out hit, range)){
-                Stats stats = hit.transform.gameObject.GetComponent<Stats>();
-                if (stats != null)
-                {
-                    stats.TakeDamage(damage);
-                }
-           }
-        }
-    }
-
     void UpdateInfo(GameObject weapon)
     {
-        damage = weapon.GetComponent<Weapon>().damage;
-        durability = weapon.GetComponent<Weapon>().durability;
+        Weapon weaponScript = weapon.GetComponent<Weapon>();
+        PlayerShoot playerShoot = gameObject.GetComponent<PlayerShoot>();
+
+        playerShoot.damage = weaponScript.damage;
+        playerShoot.bulletDrop = weaponScript.accuracy;
+        playerShoot.maxAmmo = weaponScript.maxAmmo;
+        playerShoot.fireRate = weaponScript.fireRate;
+        
         return;
     }
 
     public void GetCraftedWeapon(GameObject craftedWeapon)
     {
-        DropWeapon();
+        //DropWeapon();
         if (usingFirstWeapon == true)
         {
             weapon1 = craftedWeapon;
@@ -184,4 +143,5 @@ public class PlayerWeapSstm : MonoBehaviour
             UpdateInfo(weapon2);
         }
     }
+
 }

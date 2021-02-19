@@ -5,7 +5,7 @@ using UnityEngine;
 public class Weapon : MonoBehaviour
 {
     [HideInInspector]
-    public int damage, durability;
+    public float accuracy, shootForce, maxAmmo, fireRate, damage;
     List<GameObject> weapCompStats = new List<GameObject>();
     int listLength;
 
@@ -20,11 +20,14 @@ public class Weapon : MonoBehaviour
     }
     void collectInfo()
     {
+
         for (int i = 0; i < listLength; i++)
         {
+            accuracy += weapCompStats[i].GetComponentInChildren<WeaponComponent>().accuracy;
+            shootForce += weapCompStats[i].GetComponentInChildren<WeaponComponent>().shootForce;
+            maxAmmo += weapCompStats[i].GetComponentInChildren<WeaponComponent>().maxAmmo;
+            fireRate += weapCompStats[i].GetComponentInChildren<WeaponComponent>().fireRate;
             damage += weapCompStats[i].GetComponentInChildren<WeaponComponent>().damage;
         }
-        durability = weapCompStats[0].GetComponentInChildren<WeaponComponent>().durability;
-        //Debug.Log(damage +" "+ transform.gameObject.name);
     }
 }

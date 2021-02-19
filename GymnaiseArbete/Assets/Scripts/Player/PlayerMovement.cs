@@ -23,12 +23,12 @@ public class PlayerMovement : MonoBehaviour
 
     //Sliding variabler
     private float slideLength;
-    private bool startedSliding;
+    private bool startedSliding;        
 
     //"Titta runt" variabler
     public float mouseSensitivity;
     private float sensMultiplier;
-    private float xRotation;
+   
 
     //"Jump" variabler
     public LayerMask groundLayers;
@@ -60,7 +60,6 @@ public class PlayerMovement : MonoBehaviour
         antiWallClimbingCol = antiWallClimingObj.GetComponent<CapsuleCollider>();
 
         currentSpeed = walkSpeed;
-        xRotation = 0f;
         Cursor.lockState = CursorLockMode.Locked;
 
         haveGotUp = true;
@@ -83,29 +82,8 @@ public class PlayerMovement : MonoBehaviour
         StateManager();
         
         Jump();
-
-        LookAround();
     }
 
-    private void LookAround()
-    {
-        float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * 10 * Time.deltaTime;
-        float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * 10* Time.deltaTime;
-
-        xRotation -= mouseY;
-        xRotation = Mathf.Clamp(xRotation, -90f, 90f);
-        cameraHolder.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
-        transform.Rotate(Vector3.up * mouseX);
-
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            Cursor.lockState = CursorLockMode.None;
-        }
-        if (Input.GetKeyDown(KeyCode.Tab))
-        {
-            Cursor.lockState = CursorLockMode.Locked;
-        }
-    }
     private bool isGrounded()
     {
         return Physics.CheckCapsule(col.bounds.center, new Vector3(col.bounds.center.x, col.bounds.min.y, col.bounds.center.z), col.radius * 1.05f, groundLayers);

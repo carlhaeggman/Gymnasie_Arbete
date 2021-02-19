@@ -23,9 +23,6 @@ public class ShooterAI : MonoBehaviour
     private GameObject[] spawnPoints;
     public Transform closestSpawnPoint;
     public bool outOfSpawn;
-    private bool clearedSpawn;
-    
-
 
     public GameObject getClosestOutOfSpawnPoint()
     {
@@ -48,7 +45,6 @@ public class ShooterAI : MonoBehaviour
 
     private void Awake()
     {
-        clearedSpawn = false;
         player = GameObject.Find("Player").transform;
         agent = GetComponent<NavMeshAgent>();
     }

@@ -5,13 +5,13 @@ using UnityEngine;
 public class Stats : MonoBehaviour
 {
     public float SpawnCost;
-    public int health;
+    public float health;
     private void Start()
     {
         health = 10;
     }
 
-    public void TakeDamage(int damageTaken)
+    public void TakeDamage(float damageTaken)
     {
         health -= damageTaken;
         if(health <= 0)
